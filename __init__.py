@@ -8,10 +8,8 @@ modules_dir = addon_dir / "modules"
 if str(modules_dir) not in sys.path:
     sys.path.append(str(modules_dir))
 
-import os
 import bpy
 import importlib
-from . import addon_framework
 
 # Addon metadata
 bl_info = {
@@ -26,10 +24,10 @@ bl_info = {
 
 # Dynamically import all module files
 modules = [
-    'material_module',
-    'texture_module', 
-    'uv_module', 
-    'vertex_module'
+    "material_module",
+    "texture_module",
+    "uv_module",
+    "vertex_module",
 ]
 
 loaded_modules = []
@@ -37,9 +35,8 @@ loaded_modules = []
 def register():
     # Dynamically import and store modules
     for module_name in modules:
-        module_path = f".{module_name}"
         try:
-            module = importlib.import_module(module_path, package=__name__)
+            module = importlib.import_module(module_name)  # No longer using relative imports
             loaded_modules.append(module)
             print(f"Successfully imported module: {module_name}")
         except Exception as e:
@@ -48,7 +45,7 @@ def register():
     # Register all modules
     for module in loaded_modules:
         for name, obj in module.__dict__.items():
-            if hasattr(obj, 'register'):
+            if hasattr(obj, "register"):
                 try:
                     obj.register()
                     print(f"Registered: {name}")
@@ -59,7 +56,7 @@ def unregister():
     # Unregister modules in reverse order
     for module in reversed(loaded_modules):
         for name, obj in module.__dict__.items():
-            if hasattr(obj, 'unregister'):
+            if hasattr(obj, "unregister"):
                 try:
                     obj.unregister()
                     print(f"Unregistered: {name}")
