@@ -1,4 +1,14 @@
 import os
+import sys
+from pathlib import Path
+
+# Add the `modules` directory to Python's path
+addon_dir = Path(__file__).parent
+modules_dir = addon_dir / "modules"
+if str(modules_dir) not in sys.path:
+    sys.path.append(str(modules_dir))
+
+import os
 import bpy
 import importlib
 from . import addon_framework
