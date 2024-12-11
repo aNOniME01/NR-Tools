@@ -1,32 +1,57 @@
-# __init__.py
 import os
 import bpy
+import importlib
 from . import addon_framework
 
+# Addon metadata
 bl_info = {
     "name": "Ninja Tools",
-    "blender": (4, 2, 3),
-    "category": "3D View",
-    "description": "Tools for working with UV layers, focusing on active render and setting UV layers, and merging materials.",
+    "author": "Nam-Nam",
     "version": (0, 0, 1),
-    "author": "Nam-Nam"
+    "blender": (4, 2, 3),
+    "location": "View3D > Sidebar > Ninja Tools",
+    "description": "Tools for working with UV layers, materials, textures, and vertices",
+    "category": "3D View",
 }
 
-# Get the absolute path of the addon directory
-addon_path = os.path.dirname(os.path.abspath(__file__))
+# Dynamically import all module files
+modules = [
+    'material_module',
+    'texture_module', 
+    'uv_module', 
+    'vertex_module'
+]
+
+loaded_modules = []
 
 def register():
-    """Register the addon modules"""
-    # Load all modules from the 'modules' directory
-    loaded_modules = addon_framework.ModularAddonManager.load_modules(addon_path)
-    
-    # Register all loaded modules
-    addon_framework.ModularAddonManager.register_modules(loaded_modules)
+    # Dynamically import and store modules
+    for module_name in modules:
+        module_path = f".{module_name}"
+        try:
+            module = importlib.import_module(module_path, package=__name__)
+            loaded_modules.append(module)
+            print(f"Successfully imported module: {module_name}")
+        except Exception as e:
+            print(f"Error importing {module_name}: {e}")
+
+    # Register all modules
+    for module in loaded_modules:
+        for name, obj in module.__dict__.items():
+            if hasattr(obj, 'register'):
+                try:
+                    obj.register()
+                    print(f"Registered: {name}")
+                except Exception as e:
+                    print(f"Error registering {name}: {e}")
 
 def unregister():
-    """Unregister the addon modules"""
-    # Load all modules again to unregister them
-    loaded_modules = addon_framework.ModularAddonManager.load_modules(addon_path)
-    
-    # Unregister all loaded modules
-    addon_framework.ModularAddonManager.unregister_modules(loaded_modules)
+    # Unregister modules in reverse order
+    for module in reversed(loaded_modules):
+        for name, obj in module.__dict__.items():
+            if hasattr(obj, 'unregister'):
+                try:
+                    obj.unregister()
+                    print(f"Unregistered: {name}")
+                except Exception as e:
+                    print(f"Error unregistering {name}: {e}")

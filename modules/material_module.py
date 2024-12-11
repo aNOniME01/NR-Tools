@@ -72,3 +72,16 @@ class NinjaToolsMaterialModule(BaseAddonModule):
             box = layout.box()
             box.label(text="Merge Materials Tool")
             box.operator("ninja_tools.merge_materials", text="Merge Materials")
+
+    @classmethod
+    def register(cls):
+        print(f"Attempting to register {cls.__name__}")
+        super().register()
+        print(f"Successfully registered {cls.__name__}")
+
+    @classmethod
+    def unregister(cls):
+        print(f"Attempting to unregister {cls.__name__}")
+        super().unregister()
+        print(f"Successfully unregistered {cls.__name__}")
+

@@ -45,6 +45,8 @@ class NinjaToolsUVModule(BaseAddonModule):
 
     @classmethod
     def register(cls):
+        print(f"Attempting to register {cls.__name__}")
+        
         # Call parent class register method
         super().register()
         
