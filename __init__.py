@@ -1,64 +1,66 @@
-import os
-import sys
-from pathlib import Path
-
-# Add the `modules` directory to Python's path
-addon_dir = Path(__file__).parent
-modules_dir = addon_dir / "modules"
-if str(modules_dir) not in sys.path:
-    sys.path.append(str(modules_dir))
-
-import bpy
-import importlib
-
-# Addon metadata
 bl_info = {
-    "name": "Ninja Tools",
+    "name": "Test Addon",
     "author": "Nam-Nam",
     "version": (0, 0, 1),
     "blender": (4, 2, 3),
-    "location": "View3D > Sidebar > Ninja Tools",
-    "description": "Tools for working with UV layers, materials, textures, and vertices",
-    "category": "3D View",
+    "location": "View3D",
+    "description": "A simple test addon",
+    "category": "Development"
 }
 
-# Dynamically import all module files
-modules = [
-    "material_module",
-    "texture_module",
-    "uv_module",
-    "vertex_module",
-]
+import os
+import sys
+import importlib
+import inspect
+import bpy
 
-loaded_modules = []
+addon_dir = os.path.dirname(__file__)
+if addon_dir not in sys.path:
+    sys.path.append(addon_dir)
+    
+print(addon_dir)
+
+class BaseAddonModule:
+    @classmethod
+    def register(cls):
+        for name, obj in inspect.getmembers(cls):
+            if inspect.isclass(obj) and hasattr(obj, 'bl_idname'):
+                bpy.utils.register_class(obj)
+
+    @classmethod
+    def unregister(cls):
+        for name, obj in reversed(list(inspect.getmembers(cls))):
+            if inspect.isclass(obj) and hasattr(obj, 'bl_idname'):
+                bpy.utils.unregister_class(obj)
+
+def load_modules():
+    modules = []
+    module_dir = os.path.join(addon_dir, 'modules')
+    
+    for filename in os.listdir(module_dir):
+        if filename.endswith('.py') and filename != '__init__.py':
+            module_name = f'modules.{filename[:-3]}'
+            try:
+                module = importlib.import_module(module_name)
+                
+                for name, obj in inspect.getmembers(module):
+                    if (inspect.isclass(obj) and 
+                        issubclass(obj, BaseAddonModule) and 
+                        obj is not BaseAddonModule):
+                        modules.append(obj)
+                
+            except Exception as e:
+                print(f"Error importing module {filename}: {e}")
+    
+    return modules
 
 def register():
-    # Dynamically import and store modules
-    for module_name in modules:
-        try:
-            module = importlib.import_module(module_name)  # No longer using relative imports
-            loaded_modules.append(module)
-            print(f"Successfully imported module: {module_name}")
-        except Exception as e:
-            print(f"Error importing {module_name}: {e}")
-
-    # Register all modules
-    for module in loaded_modules:
-        for name, obj in module.__dict__.items():
-            if hasattr(obj, "register"):
-                try:
-                    obj.register()
-                    print(f"Registered: {name}")
-                except Exception as e:
-                    print(f"Error registering {name}: {e}")
+    global LOADED_MODULES
+    LOADED_MODULES = load_modules()
+    
+    for module in LOADED_MODULES:
+        module.register()
 
 def unregister():
-    # Unregister modules in reverse order
-    for module in reversed(loaded_modules):
-        for name, obj in module.__dict__.items():
-            if hasattr(obj, "unregister"):
-                try:
-                    obj.unregister()
-                    print(f"Unregistered: {name}")
-                except Exception as e:
-                    print(f"Error unregistering {name}: {e}")
+    for module in reversed(LOADED_MODULES):
+        module.unregister()
