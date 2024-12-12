@@ -37,15 +37,15 @@ def load_modules():
     modules = []
     module_dir = os.path.join(addon_dir, 'modules')
     print(f'module dir: {module_dir}')
-    
+
     for filename in os.listdir(module_dir):
 
         if filename.endswith('.py') and filename != '__init__.py':
             module_name = f'modules.{filename[:-3]}'
-            print(f'import filename: {filename}')
             print(f'import module name: {module_name}')
             try:
                 module = importlib.import_module(module_name)
+                print('stage1 complete')
                 
                 for name, obj in inspect.getmembers(module):
                     if (inspect.isclass(obj) and 
