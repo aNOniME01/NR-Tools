@@ -17,7 +17,7 @@ import bpy
 addon_dir = os.path.dirname(__file__)
 if addon_dir not in sys.path:
     sys.path.append(addon_dir)
-    
+
 print(addon_dir)
 
 class BaseAddonModule:
@@ -38,8 +38,12 @@ def load_modules():
     module_dir = os.path.join(addon_dir, 'modules')
     
     for filename in os.listdir(module_dir):
+
+        
+
         if filename.endswith('.py') and filename != '__init__.py':
             module_name = f'modules.{filename[:-3]}'
+            print(f'import filename: {filename}')
             try:
                 module = importlib.import_module(module_name)
                 
