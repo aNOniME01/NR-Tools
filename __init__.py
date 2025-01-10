@@ -1,70 +1,30 @@
 bl_info = {
-    "name": "Test Addon",
-    "author": "Nam-Nam",
-    "version": (0, 0, 1),
-    "blender": (4, 2, 3),
-    "location": "View3D",
-    "description": "A simple test addon",
-    "category": "Development"
+    "name": "Ninja Ripper Tools",
+    "blender": (0, 0, 1),
+    "category": "Object",
+    "description": "This is an addon developed for Ripping R6S models using Ninja Ripper.",
 }
 
-import os
-import sys
 import importlib
-import inspect
 import bpy
 
-addon_dir = os.path.dirname(__file__)
-if addon_dir not in sys.path:
-    sys.path.append(addon_dir)
+# Import modules
+from .operators import example_operator
+from .panels import example_panel
 
-print(addon_dir)
+# Reload for development purposes
+modules = [example_operator, example_panel]
+for module in modules:
+    importlib.reload(module)
 
-class BaseAddonModule:
-    @classmethod
-    def register(cls):
-        for name, obj in inspect.getmembers(cls):
-            if inspect.isclass(obj) and hasattr(obj, 'bl_idname'):
-                bpy.utils.register_class(obj)
-
-    @classmethod
-    def unregister(cls):
-        for name, obj in reversed(list(inspect.getmembers(cls))):
-            if inspect.isclass(obj) and hasattr(obj, 'bl_idname'):
-                bpy.utils.unregister_class(obj)
-
-def load_modules():
-    modules = []
-    module_dir = os.path.join(addon_dir, 'modules')
-    print(f'module dir: {module_dir}')
-
-    for filename in os.listdir(module_dir):
-
-        if filename.endswith('.py') and filename != '__init__.py':
-            module_name = f'modules.{filename[:-3]}'
-            print(f'import module name: {module_name}')
-            try:
-                module = importlib.import_module(module_name)
-                print('stage1 complete')
-                
-                for name, obj in inspect.getmembers(module):
-                    if (inspect.isclass(obj) and 
-                        issubclass(obj, BaseAddonModule) and 
-                        obj is not BaseAddonModule):
-                        modules.append(obj)
-                
-            except Exception as e:
-                print(f"Error importing module {filename}: {e}")
-    
-    return modules
-
+# Register and unregister functions
 def register():
-    global LOADED_MODULES
-    LOADED_MODULES = load_modules()
-    
-    for module in LOADED_MODULES:
+    for module in modules:
         module.register()
 
 def unregister():
-    for module in reversed(LOADED_MODULES):
+    for module in modules:
         module.unregister()
+
+if __name__ == "__main__":
+    register()
