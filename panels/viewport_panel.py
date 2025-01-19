@@ -1,4 +1,5 @@
 import bpy
+from utilities.text_number_utils import adjust_text_number
 
 class ViewportPanel(bpy.types.Panel):
     bl_label = "Model Preparation"
@@ -11,11 +12,19 @@ class ViewportPanel(bpy.types.Panel):
         layout = self.layout
         scene = context.scene
 
-        # Text input field
-        layout.prop(scene, "uv_layer_name")
+        # Row for text property with increment and decrement buttons
+        row = layout.row(align=True)
+        row.prop(scene, "uv_layer_name", text="")
 
-        # Button to execute the operator
-        layout.operator("object.set_active_uv_operator", text="Set Active UV").uv_name = scene.uv_layer_name
+        # Decrement button
+        decrement_button = row.operator("wm.context_set_string", text="-")
+        decrement_button.data_path = "scene.uv_layer_name"
+        decrement_button.value = adjust_text_number(scene.uv_layer_name, -1, "uv_")
+
+        # Increment button
+        increment_button = row.operator("wm.context_set_string", text="+")
+        increment_button.data_path = "scene.uv_layer_name"
+        increment_button.value = adjust_text_number(scene.uv_layer_name, 1, "uv_")
 
 
 def register():
