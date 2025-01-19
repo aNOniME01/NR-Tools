@@ -1,6 +1,6 @@
 import bpy
 
-class DeleteMeshesWithNoMaterials(bpy.types.Operator):
+class DeletMeshesFlatOnZ(bpy.types.Operator):
     """Delete all flat meshes on Z dimension"""
     bl_idname = "object.delete_flat_meshes_on_z"
     bl_label = "Delete Meshes That Have A Flat Z Dimension"
