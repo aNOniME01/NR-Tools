@@ -9,11 +9,11 @@ import importlib
 import bpy
 
 # Import modules
-from .operators import example_operator
-from .panels import example_panel
+from .operators import set_active_uv_operator
+from .panels import viewport_panel
 
 # Reload for development purposes
-modules = [example_operator, example_panel]
+modules = [set_active_uv_operator, viewport_panel]
 for module in modules:
     importlib.reload(module)
 

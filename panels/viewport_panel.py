@@ -1,11 +1,11 @@
 import bpy
 
 class ViewportPanel(bpy.types.Panel):
-    bl_label = "Viewport Panel"
+    bl_label = "Model Preparation"
     bl_idname = "OBJECT_PT_viewport_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'Example'
+    bl_category = 'R6S NR Tools'
 
     def draw(self, context):
         layout = self.layout
