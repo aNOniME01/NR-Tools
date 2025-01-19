@@ -10,16 +10,22 @@ class ViewportPanel(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         scene = context.scene
-        
+
         box = layout.box()
         box.label(text="Mesh Tools:")
+        row = box.row()
+        row.operator("object.delete_flat_meshes_on_z", text="Delete Meshes That Have A Flat Z Dimension")
         row = box.row()
         row.operator("object.delete_meshes_without_mat", text="Delete Meshes Without Materials")
 
         layout.separator()
         
-        row = layout.row()
+        
+        box = layout.box()
+        box.label(text="Material Tools:")
+        row = box.row()
         row.prop(scene, "uv_layer_name")
+        row = box.row()
         row.operator("object.set_active_uv_operator", text="Set Active UV").uv_name = scene.uv_layer_name
 
 

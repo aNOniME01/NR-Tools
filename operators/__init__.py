@@ -11,3 +11,4 @@ def register():
 def unregister():
     bpy.utils.unregister_class(SetActiveUVOperator)
     bpy.utils.unregister_class(DeleteMeshesWithNoMaterials)
+    bpy.utils.unregister_class(DeletMeshesFlatOnZ)

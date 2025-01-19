@@ -28,8 +28,8 @@ class DeletMeshesFlatOnZ(bpy.types.Operator):
 
 # Register and unregister classes
 def register():
-    bpy.utils.register_class(DeleteMeshesWithNoMaterials)
+    bpy.utils.register_class(DeletMeshesFlatOnZ)
 
 
 def unregister():
-    bpy.utils.unregister_class(DeleteMeshesWithNoMaterials)
+    bpy.utils.unregister_class(DeletMeshesFlatOnZ)
