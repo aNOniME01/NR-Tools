@@ -1,8 +1,7 @@
 import bpy
-from utilities.text_number_utils import adjust_text_number
 
 class ViewportPanel(bpy.types.Panel):
-    bl_label = "Model Preparation"
+    bl_label = "Viewport Panel"
     bl_idname = "OBJECT_PT_viewport_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
@@ -12,19 +11,13 @@ class ViewportPanel(bpy.types.Panel):
         layout = self.layout
         scene = context.scene
 
-        # Row for text property with increment and decrement buttons
-        row = layout.row(align=True)
-        row.prop(scene, "uv_layer_name", text="")
 
-        # Decrement button
-        decrement_button = row.operator("wm.context_set_string", text="-")
-        decrement_button.data_path = "scene.uv_layer_name"
-        decrement_button.value = adjust_text_number(scene.uv_layer_name, -1, "uv_")
+        row1 = self.layout.row()
+        row1.prop(scene, "uv_layer_name")
+        row1.operator("object.set_active_uv_operator", text="Set Active UV").uv_name = scene.uv_layer_name
 
-        # Increment button
-        increment_button = row.operator("wm.context_set_string", text="+")
-        increment_button.data_path = "scene.uv_layer_name"
-        increment_button.value = adjust_text_number(scene.uv_layer_name, 1, "uv_")
+        row2 = self.layout.row()
+        row2.operator("object.delete_meshes_without_mat", text="Delete Meshes Without Materials")
 
 
 def register():
