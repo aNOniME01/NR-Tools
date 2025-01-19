@@ -1,7 +1,7 @@
 # Initialize the module
 from .set_active_uv_operator import SetActiveUVOperator
 from .delete_meshes_without_mat import DeleteMeshesWithNoMaterials
-from .delete_meshes_flat_on_Z import DeletMeshesFlatOnZ
+from .delete_meshes_flat_on_z import DeletMeshesFlatOnZ
 
 def register():
     bpy.utils.register_class(SetActiveUVOperator)

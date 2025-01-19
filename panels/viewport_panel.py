@@ -14,7 +14,7 @@ class ViewportPanel(bpy.types.Panel):
         box = layout.box()
         box.label(text="Mesh Tools:")
         row = box.row()
-        row.operator("object.delete_flat_meshes_on_z", text="Delete Meshes That Have A Flat Z Dimension")
+        row.operator("object.delete_meshes_flat_on_z", text="Delete Meshes That Have A Flat Z Dimension")
         row = box.row()
         row.operator("object.delete_meshes_without_mat", text="Delete Meshes Without Materials")
 
