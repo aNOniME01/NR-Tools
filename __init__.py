@@ -9,11 +9,12 @@ import importlib
 import bpy
 
 # Import modules
-from .operators import set_active_uv_operator
+from .operators import set_active_uv_operator, delete_meshes_without_mat
 from .panels import viewport_panel
 
 # Reload for development purposes
-modules = [set_active_uv_operator, viewport_panel]
+modules = [set_active_uv_operator, delete_meshes_without_mat
+           , viewport_panel]
 for module in modules:
     importlib.reload(module)
 

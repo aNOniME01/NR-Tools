@@ -2,7 +2,7 @@ import bpy
 
 class ViewportPanel(bpy.types.Panel):
     bl_label = "Viewport Panel"
-    bl_idname = "OBJECT_PT_viewport_panel"
+    bl_idname = "viewport_panel"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = 'R6S NR Tools'
@@ -10,14 +10,20 @@ class ViewportPanel(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         scene = context.scene
+        
+        box = layout.box()
+        box.label(text="Mesh Tools:")
+        row = box.row()
+        row.operator("object.delete_meshes_without_mat", text="Delete Meshes Without Materials")
+
+        layout.separator()
+        
+        row = layout.row()
+        row.prop(scene, "uv_layer_name")
+        row.operator("object.set_active_uv_operator", text="Set Active UV").uv_name = scene.uv_layer_name
 
 
-        row1 = self.layout.row()
-        row1.prop(scene, "uv_layer_name")
-        row1.operator("object.set_active_uv_operator", text="Set Active UV").uv_name = scene.uv_layer_name
 
-        row2 = self.layout.row()
-        row2.operator("object.delete_meshes_without_mat", text="Delete Meshes Without Materials")
 
 
 def register():

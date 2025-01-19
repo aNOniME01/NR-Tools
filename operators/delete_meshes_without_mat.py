@@ -7,13 +7,17 @@ class DeleteMeshesWithNoMaterials(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
+
+        count = 0
         # Loop through all objects in the scene
         for obj in bpy.context.scene.objects:
             # Check if the object is a mesh and has no materials
             if obj.type == 'MESH':
                 if not obj.data.materials:  # If there are no materials attached
                     bpy.data.objects.remove(obj)  # Delete the object
-        self.report({'INFO'}, "Deleted all mesh objects without materials")
+                    count += 1
+        
+        self.report({'INFO'}, f"Deleted {count} mesh objects without materials")
         return {'FINISHED'}
 
 # Register and unregister classes
