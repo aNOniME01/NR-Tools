@@ -1,9 +1,9 @@
 import bpy
 
 class DeletMeshesFlatOnZ(bpy.types.Operator):
-    """Delete all flat meshes on Z dimension"""
+    """Delete all meshes flat on Z dimension"""
     bl_idname = "object.delete_meshes_flat_on_z"
-    bl_label = "Delete Meshes Flat Meshes"
+    bl_label = "Delete Flat Meshes"
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):

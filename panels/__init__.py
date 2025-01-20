@@ -1,3 +1,4 @@
+import bpy
 from .viewport_panel import ViewportPanel
 
 def register():

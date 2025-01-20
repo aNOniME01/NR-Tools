@@ -1,7 +1,7 @@
 import bpy
 
 class DeleteMeshesWithNoMaterials(bpy.types.Operator):
-    """Delete all mesh objects without materials"""
+    """Delete all objects without materials"""
     bl_idname = "object.delete_meshes_without_mat"
     bl_label = "Delete Meshes Without Materials"
     bl_options = {'REGISTER', 'UNDO'}

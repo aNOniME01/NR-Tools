@@ -4,7 +4,7 @@ import os
 class FindMissingTexturesForNRMaterials(bpy.types.Operator):
     """Find missing textures for materials form nr log file"""
     bl_idname = "texture.find_missing_textures_for_mat"
-    bl_label = "Find Missing Textures For Selected Objects From NR Log File"
+    bl_label = "Find Missing Textures"
     
     def execute(self, context):
         settings = context.scene.texture_import_settings
