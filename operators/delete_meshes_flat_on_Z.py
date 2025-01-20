@@ -20,11 +20,10 @@ class DeletMeshesFlatOnZ(bpy.types.Operator):
                 
                 # Check if the Z-dimension is exactly 0
                 if dimensions.z == 0:
-                    bpy.data.objects.remove(obj) 
-                    count += 1
+                    obj.select_set(True)
             
-            self.report({'INFO'}, f"Deleted {count} mesh objects without materials")
-            return {'FINISHED'}
+        self.report({'INFO'}, f"Deleted {count} mesh objects without materials")
+        return {'FINISHED'}
 
 # Register and unregister classes
 def register():
