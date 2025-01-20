@@ -23,7 +23,7 @@ class DeletMeshesFlatOnZ(bpy.types.Operator):
                     bpy.data.objects.remove(obj)
                     count += 1
             
-        self.report({'INFO'}, f"Deleted {count} mesh objects without materials")
+        self.report({'INFO'}, f"Deleted {count} flat mesh objects.")
         return {'FINISHED'}
 
 # Register and unregister classes
