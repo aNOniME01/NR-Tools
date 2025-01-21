@@ -28,7 +28,7 @@ class SetActiveUVOperator(bpy.types.Operator):
                     if len(obj.data.uv_layers) > 2:  # Check if there are at least 3 UV layers
                         obj.data.uv_layers.active_index = 2  # Set the active UV map index to 2
 
-        self.report({'INFO'}, f"UV settings updated for '{uv_name}' on visible mesh objects.")
+        self.report({'INFO'}, f"UV settings updated for '{uv_name}' on selected objects.")
         return {'FINISHED'}
 
 
