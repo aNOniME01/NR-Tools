@@ -16,7 +16,7 @@ class SetActiveUVOperator(bpy.types.Operator):
         uv_name = self.uv_name
 
         # Loop through all objects in the scene
-        for obj in context.scene.objects:
+        for obj in context.selected_objects:
             # Check if the object is a mesh and visible in the viewport
             if obj.type == 'MESH' and obj.visible_get():
                 # Ensure the object has the specified UV layer
